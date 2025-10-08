@@ -1,5 +1,8 @@
 using System;
+using NUnit.Framework;
+using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,11 +16,17 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveInput;
     private InputAction _jumpAction;
 
+    private InputAction _lookAction;
+    private Vector2 _lookInput;
+    private InputAction _aimAction;
+
     [SerializeField] private float _movementSpeed = 5f;
 
     [SerializeField] private float _jumpHeight = 2;
 
     [SerializeField] private float _smoothTime = 0.2f;
+
+
     private float _turnSmoothVelocity;
 
 
@@ -31,11 +40,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _sensorRadius = 2;
 
 
+
+    private Transform _mainCamera;
+
+
     void Awake()
     {
         _controller = GetComponent<CharacterController>();
         _moveAction = InputSystem.actions["Move"];
         _jumpAction = InputSystem.actions["Jump"];
+        _lookAction = InputSystem.actions["Look"];
+        _aimAction = InputSystem.actions["Aim"];
+
+        _mainCamera = Camera.main.transform;
     }
     void Start()
     {
@@ -45,7 +62,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        MovimientoCutre();
+        
+        _moveInput = _moveAction.ReadValue<Vector2>();
+        _lookInput = _lookAction.ReadValue<Vector2>();
+        //Movimiento2();
+
+        if (_aimAction.IsInProgress())
+        {
+            AimMovement();
+        }
+        else
+        {
+            Movement();
+        }
+        
+        
 
         if (_jumpAction.WasPressedThisFrame() && IsGrounded())
         {
@@ -56,9 +87,58 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void MovimientoCutre()
+    void Movement()
     {
-        _moveInput = _moveAction.ReadValue<Vector2>();
+         Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y);
+
+        if (direction != Vector3.zero)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.eulerAngles.y;
+            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, _smoothTime);
+            transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
+            Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            _controller.Move(moveDirection.normalized * _movementSpeed * Time.deltaTime);
+        }
+        
+    }
+
+    void AimMovement()
+    {
+         Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y);
+        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.eulerAngles.y;
+        float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _mainCamera.eulerAngles.y, ref _turnSmoothVelocity, _smoothTime);
+        transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
+
+        if (direction != Vector3.zero)
+        {
+            Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            _controller.Move(moveDirection.normalized * _movementSpeed * Time.deltaTime);
+        }
+        
+    }
+
+
+    void Movimiento2()
+    {
+        Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y);
+        Ray ray = Camera.main.ScreenPointToRay(_lookInput);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            Vector3 playerForward = hit.point - transform.position;
+        
+            playerForward.y = 0;
+            transform.forward = playerForward;
+        }
+        if (direction != Vector3.zero)
+            {
+                 _controller.Move(direction.normalized * _movementSpeed * Time.deltaTime);
+            }
+    }
+
+    /*void MovimientoCutre()
+    {
+        
         Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y);
 
         if (direction != Vector3.zero)
@@ -69,7 +149,7 @@ public class PlayerController : MonoBehaviour
             _controller.Move(direction.normalized * _movementSpeed * Time.deltaTime);
         }
        
-    }
+    }*/
 
     void Gravity()
     {
