@@ -1,8 +1,6 @@
 using System;
-using NUnit.Framework;
+
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -85,6 +83,34 @@ public class PlayerController : MonoBehaviour
 
         Gravity();
 
+        if(_aimAction.WasPerformedThisFrame())
+        {
+            Attack();
+        }
+
+    }
+
+
+    void Attack()
+    {
+        
+            Ray ray = Camera.main.ScreenPointToRay(_lookInput);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+        
+            if(damageable != null)
+            {
+                damageable.TakeDamage();
+            }
+            IInteratable interactable = hit.transform.GetComponent<IInteratable>();
+        
+            if(interactable != null)
+            {
+                interactable.Interact();
+            }
+        }
     }
 
     void Movement()
