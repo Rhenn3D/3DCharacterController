@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private InputAction _lookAction;
     private Vector2 _lookInput;
     private InputAction _aimAction;
+    private InputAction _grabAction;
+    private InputAction _throwAction;
 
     [SerializeField] private float _movementSpeed = 5f;
 
@@ -23,6 +26,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _smoothTime = 0.2f;
 
+    [SerializeField] private float _pushForce = 4;
+    [SerializeField] private float _throwForce = 8000;
+    private CharacterController characterController;
+ 
 
     private float _turnSmoothVelocity;
 
@@ -35,6 +42,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _sensor;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _sensorRadius = 2;
+
+    //Interacción
+
+    [SerializeField] private Vector3 _handSensorSize;
+    [SerializeField] private Transform _hands;
+    [SerializeField] private Transform _grabbedObject;
+
+
+
+
 
 
 
@@ -49,6 +66,8 @@ public class PlayerController : MonoBehaviour
         _jumpAction = InputSystem.actions["Jump"];
         _lookAction = InputSystem.actions["Look"];
         _aimAction = InputSystem.actions["Aim"];
+        _grabAction = InputSystem.actions["Interact"];
+        _throwAction = InputSystem.actions["Throw"];
 
         _mainCamera = Camera.main.transform;
     }
@@ -83,10 +102,22 @@ public class PlayerController : MonoBehaviour
 
         Gravity();
 
-        if(_aimAction.WasPerformedThisFrame())
+        if (_aimAction.WasPerformedThisFrame())
         {
             Attack();
         }
+
+        if (_grabAction.WasPerformedThisFrame())
+        {
+            GrabObject();
+        }
+
+        if (_throwAction.WasPerformedThisFrame())
+        {
+            Throw();
+        }
+
+        RayTest();
 
     }
 
@@ -102,7 +133,7 @@ public class PlayerController : MonoBehaviour
         
             if(damageable != null)
             {
-                damageable.TakeDamage();
+                damageable.TakeDamage(5);
             }
             IInteratable interactable = hit.transform.GetComponent<IInteratable>();
         
@@ -208,11 +239,126 @@ public class PlayerController : MonoBehaviour
     bool IsGrounded()
     {
         return Physics.CheckSphere(_sensor.position, _sensorRadius, _groundLayer);
+
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_sensor.position, _sensorRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(_hands.position, _handSensorSize);
     }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.transform.gameObject.tag == "Empujable")
+        {
+            Rigidbody rBody = hit.collider.attachedRigidbody;
+            //Rigidbody rBody = hit.transform.GetComponent<Rigidbody>();
+
+
+            if (rBody == null || rBody.isKinematic)
+            {
+                return;
+            }
+
+            Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+            rBody.linearVelocity = pushDirection * _pushForce / rBody.mass;
+        }
+    }
+
+    void GrabObject()
+    {
+        if (_grabbedObject == null)
+        {
+            Collider[] objectsToGrab = Physics.OverlapBox(_hands.position, _handSensorSize);
+            foreach (Collider item in objectsToGrab)
+            {
+                IGrabbeable grabbeableObject = item.GetComponent<IGrabbeable>();
+
+                if (grabbeableObject != null)
+                {
+                    _grabbedObject = item.transform;
+                    _grabbedObject.SetParent(_hands);
+                    _grabbedObject.position = _hands.position;
+                    _grabbedObject.rotation = _hands.rotation;
+                    _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+
+                    return;
+                }
+
+
+            }
+        }
+        else
+        {
+            _grabbedObject.SetParent(null);
+            _grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
+            _grabbedObject = null;
+        }
+    }
+
+    void Throw()
+    {
+
+        if (_grabbedObject == null)
+        {
+            return;
+        }
+        Rigidbody grabbedBody = _grabbedObject.GetComponent<Rigidbody>();
+        _grabbedObject.SetParent(null);
+        grabbedBody.isKinematic = false;
+        grabbedBody.AddForce(_mainCamera.transform.forward * _throwForce, ForceMode.Impulse);
+        gameObject.transform.SetParent(_grabbedObject);
+        _controller.enabled = false;
+
+    }
+    
+    void RayTest()
+    {
+
+        //RayCast simple
+        if (Physics.Raycast(transform.position, transform.forward, 5))
+        {
+            Debug.DrawRay(transform.position, transform.forward * 5, Color.red);
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.forward * 5, Color.green);
+        }
+
+
+        //RayCast avanzado
+
+        /*RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 5))
+        {
+            Debug.Log(hit.transform.name);
+            Debug.Log(hit.transform.position);
+            Debug.Log(hit.transform.gameObject.layer);
+            Debug.Log(hit.transform.tag);
+
+            /*if(hit.transform.tag == "Empujable")
+            {
+                Debug.Log("Tontito");
+                Box box = hit.transform.GetComponent<Box>();
+                if(box != null)
+                {
+                    Debug.Log("Javi putita");
+                }
+            }^
+
+            IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+
+            if(damageable != null)
+            {
+                damageable.TakeDamage(5);
+            }
+
+        }*/
+    }
+
 }

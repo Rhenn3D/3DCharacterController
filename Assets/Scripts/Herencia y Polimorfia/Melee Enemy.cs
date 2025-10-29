@@ -22,7 +22,7 @@ public class MeleeEnemy : Enemy, IDamageable
         Debug.Log("Ataque melee");
     }
 
-    void IDamageable.TakeDamage()
+    void IDamageable.TakeDamage(float damage)
     {
         Debug.Log ("enemigo recibiendo daño");
     }

@@ -15,7 +15,7 @@ public class Barril : MonoBehaviour, IDamageable, IInteratable
         
     }
 
-    void IDamageable.TakeDamage()
+    void IDamageable.TakeDamage(float damage)
     {
         Debug.Log ("enemigo recibiendo daño");
     }
