@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     //Componentes
     private CharacterController _controller;
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
 
     //Inputs
     private InputAction _moveAction;
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         _controller = GetComponent<CharacterController>();
-        _animator = GetComponentInChildren<Animator>();
+        //_animator = GetComponentInChildren<Animator>();
         _moveAction = InputSystem.actions["Move"];
         _jumpAction = InputSystem.actions["Jump"];
         _lookAction = InputSystem.actions["Look"];
