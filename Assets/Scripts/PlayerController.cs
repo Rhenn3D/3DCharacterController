@@ -149,13 +149,13 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
-    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
-    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
-    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
-    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
-    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
-    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear y por eso está comentado.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear y por eso está comentado.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear y por eso está comentado.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear y por eso está comentado.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear y por eso está comentado.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear y por eso está comentado.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear y por eso está comentado.
     
 
     //Era simplemente para completar un poco la entrega y aprender cosas para el proyecto final. Es un extra y no me importa si no se me sube nota por eso, es normal.
