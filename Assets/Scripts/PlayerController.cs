@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     //Inputs
-    private InputAction _moveAction;
-    private Vector2 _moveInput;
-    private InputAction _jumpAction;
+    private InputAction _moveInput;
+    private Vector2 _moveAction;
+    private InputAction _jumpInput;
 
     private InputAction _lookAction;
     private Vector2 _lookInput;
@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         //_animator = GetComponentInChildren<Animator>();
-        _moveAction = InputSystem.actions["Move"];
-        _jumpAction = InputSystem.actions["Jump"];
+        _moveInput = InputSystem.actions["Move"];
+        _jumpInput = InputSystem.actions["Jump"];
         _lookAction = InputSystem.actions["Look"];
         _aimAction = InputSystem.actions["Aim"];
         _grabAction = InputSystem.actions["Interact"];
