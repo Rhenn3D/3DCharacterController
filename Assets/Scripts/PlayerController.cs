@@ -149,13 +149,14 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    //A parir de aquí, usé IA para hacer 2 corrutinas: un Respawn y un Fade Out al objeto de la espalda del personaje cuando muere. 
-    //A parir de aquí, usé IA para hacer 2 corrutinas: un Respawn y un Fade Out al objeto de la espalda del personaje cuando muere. 
-    //A parir de aquí, usé IA para hacer 2 corrutinas: un Respawn y un Fade Out al objeto de la espalda del personaje cuando muere. 
-    //A parir de aquí, usé IA para hacer 2 corrutinas: un Respawn y un Fade Out al objeto de la espalda del personaje cuando muere. 
-    //A parir de aquí, usé IA para hacer 2 corrutinas: un Respawn y un Fade Out al objeto de la espalda del personaje cuando muere. 
-    //A parir de aquí, usé IA para hacer 2 corrutinas: un Respawn y un Fade Out al objeto de la espalda del personaje cuando muere. 
-    //A parir de aquí, usé IA para hacer 2 corrutinas: un Respawn y un Fade Out al objeto de la espalda del personaje cuando muere. 
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    //A parir de aquí, usé IA para hacer una forma de respawn. También hice un fade out al objeto xerath aro al morir, pero no hice el fade in al respawnear.
+    
 
     //Era simplemente para completar un poco la entrega y aprender cosas para el proyecto final. Es un extra y no me importa si no se me sube nota por eso, es normal.
     //Era simplemente para completar un poco la entrega y aprender cosas para el proyecto final. Es un extra y no me importa si no se me sube nota por eso, es normal.
@@ -189,7 +190,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private IEnumerator FadeOutObject(GameObject target, float duration)
+    /*private IEnumerator FadeOutObject(GameObject target, float duration)
     {
         Renderer renderer = target.GetComponent<Renderer>();
         if (renderer == null) yield break;
@@ -208,7 +209,7 @@ public class PlayerController : MonoBehaviour
 
         mat.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
         target.SetActive(false);
-    }
+    }*/
 
     
 }
