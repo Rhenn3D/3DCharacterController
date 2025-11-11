@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Empujable
+  - Death trigger
   layers:
   - Default
   - TransparentFX
@@ -12,7 +12,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Objetos tirables
+  - 
   - 
   - 
   - 

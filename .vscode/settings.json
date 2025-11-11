@@ -60,11 +60,11 @@
         "*.asset": "yaml",
         "*.meta": "yaml",
         "*.prefab": "yaml",
-        "*.unity": "yaml",
+        "*.unity": "yaml"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        "*.sln": "*.csproj",
+        "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "3DCharacterController.sln"
+    "dotnet.defaultSolution": "3DTerrain_AaronAlvarez-0292365cdee9954f89e1d3e7c722b67bd0cba93b.sln"
 }
