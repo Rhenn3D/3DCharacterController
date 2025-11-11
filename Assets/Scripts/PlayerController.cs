@@ -50,11 +50,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _grabbedObject;
 
 
-
-
-
-
-
     private Transform _mainCamera;
 
 
